@@ -29,17 +29,20 @@ public class TooltipSystem : MonoBehaviour
         float width = rect.rect.width;
         float height = rect.rect.height;
 
-        if (mousePos.x <= Screen.width / 2f && mousePos.y >= Screen.height / 2f)
+        if (mousePos.y >= Screen.height / 2f)
         {
-            ToolTip.transform.position = mousePos + new Vector2(width , 0);
+            if (mousePos.x <= Screen.width / 2f)
+            {
+                ToolTip.transform.position = mousePos + new Vector2(width / 4f, -30f);
+            }
+            else if (mousePos.x > Screen.width / 2f)
+            {
+                ToolTip.transform.position = mousePos + new Vector2(-width / 4f, -40f);
+            }
         }
-        else if (mousePos.x > Screen.width / 2f && mousePos.y >= Screen.height / 2f)
+        else if (mousePos.y <= Screen.height / 2)
         {
-            ToolTip.transform.position = mousePos + new Vector2(-width, 0);
-        }
-        else
-        {
-            ToolTip.transform.position = mousePos + new Vector2(10, height + 2f);
+            ToolTip.transform.position = mousePos + new Vector2(width / 4f, -30f);
         }
     }
 
