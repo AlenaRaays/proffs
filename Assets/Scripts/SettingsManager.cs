@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SettingsManager : MonoBehaviour
 {
@@ -18,11 +19,15 @@ public class SettingsManager : MonoBehaviour
 
     public void SaveSettings()
     {
-        if (File.Exists(settingsPath))
+        try
         {
             string json = JsonUtility.ToJson(currentSettings, true);
             File.WriteAllText(settingsPath, json);
-            Debug.Log($"Примененные настройки: {json}");
+            Debug.Log($"Настройки сохранены: {json}");
+        }
+        catch (System.Exception e)
+        {
+            Debug.LogError($"Ошибка сохранения настроек: {e.Message}");
         }
     }
 
@@ -32,11 +37,21 @@ public class SettingsManager : MonoBehaviour
         {
             string json = File.ReadAllText(settingsPath);
             currentSettings = JsonUtility.FromJson<GameSettings>(json);
+            Debug.Log($"Настройки загружены: {json}");
         }
         else
         {
             currentSettings = new GameSettings();
+
+            currentSettings.Resolution = "1920:1080";
+            currentSettings.WindowModeEnabled = false;
+            currentSettings.MusicEnabled = true;
+            currentSettings.Language = "English";
+
+            SaveSettings();
         }
+
+
     }
 }
 [SerializeField]
