@@ -33,11 +33,11 @@ public class TooltipSystem : MonoBehaviour
         {
             if (mousePos.x <= Screen.width / 2f)
             {
-                ToolTip.transform.position = mousePos + new Vector2(width / 4f, -30f);
+                ToolTip.transform.position = mousePos + new Vector2(width / 4f, -40f);
             }
             else if (mousePos.x > Screen.width / 2f)
             {
-                ToolTip.transform.position = mousePos + new Vector2(-width / 4f, -40f);
+                ToolTip.transform.position = mousePos + new Vector2(-width / 4f, -50f);
             }
         }
         else if (mousePos.y <= Screen.height / 2)

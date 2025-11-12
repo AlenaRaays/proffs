@@ -16,8 +16,8 @@ public class ToolTipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             case "Button_Exit": return "Выйти из игры";
             case "Button_Settings": return "Настройки";
             case "Button_PlusMoney": return "Магазин";
-            case "Button_Shop": return "Магазин фонов";
-            case "Button_Paint": return "Изменить фон";
+            case "Button_Shop": return "Магазин";
+            case "Button_Paint": return "Магазин фонов";
             default: return ""; //else если по простому
         }
     }
