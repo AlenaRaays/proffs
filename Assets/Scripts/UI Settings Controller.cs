@@ -11,10 +11,6 @@ public class UISettingsController : MonoBehaviour
     public Toggle MusicEnableToggel;
     public TMP_Dropdown LanguageDropDown;
 
-    public void OnEnable()
-    {
-        
-    }
 
     void Start()
     {
