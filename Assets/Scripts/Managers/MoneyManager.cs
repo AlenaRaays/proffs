@@ -28,6 +28,29 @@ public class MoneyManager : MonoBehaviour
         LoadBalance();
     }
 
+
+    public bool RemoveBalance(decimal amount)
+    {
+        if (Balance >= amount)
+        {
+            Balance -= amount;
+            Changed?.Invoke(Balance);
+            SaveBalance();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+
+    public void AddBalance(decimal amount)
+    {
+        Balance += amount;
+        Changed?.Invoke(Balance);
+        SaveBalance();
+    }
     public void LoadBalance()
     {
 
@@ -50,36 +73,13 @@ public class MoneyManager : MonoBehaviour
         else
         {
             Balance = _balance;
-            SaveMoney();
+            SaveBalance();
             Debug.Log("Файл не найден, создан новый с балансом по умолчанию");
         }
         Changed?.Invoke(Balance);
     }
 
-    public bool RemoveBalance(decimal amount)
-    {
-        if (Balance >= amount)
-        {
-            Balance -= amount;
-            Changed?.Invoke(Balance);
-            SaveMoney();
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-
-    public void AddBalance(decimal amount)
-    {
-        Balance += amount;
-        Changed?.Invoke(Balance);
-        SaveMoney();
-    }
-
-    private void SaveMoney()
+    private void SaveBalance()
     {
         MoneyData moneyData = new MoneyData();
         moneyData.balance = Balance.ToString();

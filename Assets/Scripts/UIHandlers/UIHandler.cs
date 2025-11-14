@@ -9,16 +9,8 @@ public class UIHandler : MonoBehaviour
     private void Start()
     {
         BalanceUIUpdate(MoneyManager.Balance);
-    }
 
-    private void OnEnable()
-    {
         MoneyManager.Changed += BalanceUIUpdate;
-    }
-
-    private void OnDisable()
-    {
-        MoneyManager.Changed -= BalanceUIUpdate;
     }
 
     private void BalanceUIUpdate(decimal ammony)
