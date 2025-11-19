@@ -18,7 +18,7 @@ public class ToolTipTrigger : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             case "Button_PlusMoney": return "Магазин";
             case "Button_Shop": return "Магазин";
             case "Button_Paint": return "Магазин фонов";
-            default: return ""; //else если по простому
+            default: return ""; 
         }
     }
 
