@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2615678907916751126}
-  - component: {fileID: 1517320806832706586}
+  - component: {fileID: 2384278649530760301}
   m_Layer: 6
   m_Name: Simple Wheel
   m_TagString: Part
@@ -33,8 +33,8 @@ Transform:
   - {fileID: 5681254870323553365}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!135 &1517320806832706586
-SphereCollider:
+--- !u!136 &2384278649530760301
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -48,12 +48,14 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 2
+  m_Radius: 0.20132865
+  m_Height: 1.0238954
+  m_Direction: 2
+  m_Center: {x: 0, y: -0.08748536, z: 0.0030522943}
 --- !u!1001 &5286494002507056062
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63,7 +65,7 @@ PrefabInstance:
     m_TransformParent: {fileID: 2615678907916751126}
     m_Modifications:
     - target: {fileID: -8819351472760628069, guid: c702fabdfe8be3049b246b0d46a7c604, type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: cef9408fc3d0f1b4f8857e64bdac10e6, type: 2}
     - target: {fileID: -8679921383154817045, guid: c702fabdfe8be3049b246b0d46a7c604, type: 3}
@@ -95,7 +97,7 @@ PrefabInstance:
       value: 90
       objectReference: {fileID: 0}
     - target: {fileID: -7511558181221131132, guid: c702fabdfe8be3049b246b0d46a7c604, type: 3}
-      propertyPath: m_Materials.Array.data[0]
+      propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: cef9408fc3d0f1b4f8857e64bdac10e6, type: 2}
     - target: {fileID: 919132149155446097, guid: c702fabdfe8be3049b246b0d46a7c604, type: 3}
@@ -131,7 +133,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
 --- !u!50 &6520749465927927460
 Rigidbody2D:
-  serializedVersion: 4
+  serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -142,8 +144,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 0.1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
   m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -164,6 +166,7 @@ CircleCollider2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 561986339439950711}
   m_Enabled: 1
+  serializedVersion: 3
   m_Density: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
@@ -187,9 +190,9 @@ CircleCollider2D:
     m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
-  m_UsedByComposite: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
   m_Radius: 0.3
 --- !u!235 &2319663872690109999
 WheelJoint2D:
