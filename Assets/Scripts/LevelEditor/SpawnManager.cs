@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class SpawnManager : MonoBehaviour
@@ -5,7 +6,8 @@ public class SpawnManager : MonoBehaviour
     public static SpawnManager Instance;
 
     [SerializeField] private ItemsSpawner ActiveSpawner;
-    public System.Action<ItemsSpawner> OnSpawnerSelected;
+
+    public static event Action<ItemsSpawner> OnSpawnerSelected;
 
          
     private void Awake()
@@ -14,24 +16,26 @@ public class SpawnManager : MonoBehaviour
     }
     public void SetActiveSpawner(ItemsSpawner spawner)
     {
+        if (ActiveSpawner == null)
+        {
+            ActiveSpawner = spawner;
+            ActiveSpawner.setSelected(true);
+            OnSpawnerSelected?.Invoke(spawner);
+            //подпись
+        }
         if (ActiveSpawner != null)
         {
             ActiveSpawner.setSelected(false);
-        }
-        ActiveSpawner = spawner;
-
-        if (ActiveSpawner != null)
-        {
-            ActiveSpawner.setSelected(true);
+            //отписка
         }
 
         Debug.Log($"Active spawner set to: {(spawner != null ? spawner.name : "null")}");
-        OnSpawnerSelected?.Invoke(spawner);
+        
     }
 
     public void SpawnAtActiveSpawner(int index)
     {
-        if (ActiveSpawner != null)
+        if (ActiveSpawner !=null) 
         {
             ActiveSpawner.SpawnRequest(index);
         }
@@ -39,6 +43,9 @@ public class SpawnManager : MonoBehaviour
         {
             Debug.Log("No active spawner selected!");
         }
+           
+
+       
     }
 
     

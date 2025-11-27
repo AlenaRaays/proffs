@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class UIScrollerIndex : MonoBehaviour
 {
     [SerializeField] private ItemsSpawner spawner;
-    [SerializeField] private Button button;
     private void Start()
     {
         if (spawner == null)
@@ -16,9 +15,10 @@ public class UIScrollerIndex : MonoBehaviour
     }
 
     public void Send(int ind)
-    {
-        
+    { 
         SpawnManager.Instance.SpawnAtActiveSpawner(ind);
+
+        //на остальные toggle тоже навесить скрипт чтобы отправляли индекс
     }
 
 

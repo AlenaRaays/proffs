@@ -13,9 +13,6 @@ public class ItemsSpawner : MonoBehaviour
     private GameObject item;
     private bool isSelected = false;
 
-
-    public static event Action<int> Choose;
-
     private void Awake()
     {
         if (target  == null)
@@ -26,7 +23,6 @@ public class ItemsSpawner : MonoBehaviour
         {
             spawnpoint = this.gameObject;
         }
-        
     }
 
     private void OnMouseDown()
@@ -36,6 +32,7 @@ public class ItemsSpawner : MonoBehaviour
 
     public void SpawnRequest(int index)
     {
+        //проверка на подписку на событие??
         ObjectSpawn(index);
     }
 
@@ -46,32 +43,23 @@ public class ItemsSpawner : MonoBehaviour
             target.prefabs[index] != null)
         {
             item = Instantiate(target.prefabs[index], Coords(), CoordsRotation());
+            //тут отписка от предыдуещго??
         }
 
         if (cam != null && isSelected)
         {
             MoveCameraAfterSpawn(item);
         }
-
     }
 
     private void MoveCameraAfterSpawn(GameObject SpawnedItem)
     {
-        float width = widthDifine(SpawnedItem);
 
         cam.transform.position = new Vector3(
-            cam.transform.position.x + width / 2,
+            spawnpoint.transform.position.x,
             cam.transform.position.y,
             cam.transform.position.z
         );
-    }
-
-    private float widthDifine(GameObject SpawnedItem)
-    {
-        Collider collider = SpawnedItem.GetComponent<Collider>();
-        float width = collider.bounds.size.x / 2;
-
-        return width;
     }
 
     public Vector3 Coords()
