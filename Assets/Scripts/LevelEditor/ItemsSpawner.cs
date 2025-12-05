@@ -6,11 +6,14 @@ using static UnityEditor.Progress;
 
 public class ItemsSpawner : MonoBehaviour
 {
-    [SerializeField] private GameObject spawnpoint;
+    GameObject spawnpoint;
     [SerializeField] private Camera cam;
 
     private LevelItems target;
-    private GameObject item;
+    private List<GameObject> spawnedItems = new List<GameObject>();
+
+    MeshRenderer mesh;
+    GameObject newItem;
     private bool isSelected = false;
 
     private void Awake()
@@ -23,16 +26,43 @@ public class ItemsSpawner : MonoBehaviour
         {
             spawnpoint = this.gameObject;
         }
+
+        SpawnManager.OnSpawnerSelected += OnOtherSpawnerSelected;
+        SpawnManager.OnSpawnerDeselected += OnOtherSpawnerDeselected;
+        
     }
+
+    private void OnDestroy()
+    {
+        SpawnManager.OnSpawnerSelected -= OnOtherSpawnerSelected;
+        SpawnManager.OnSpawnerDeselected -= OnOtherSpawnerDeselected;
+    }
+
+    private void OnOtherSpawnerSelected(ItemsSpawner spawner)
+    {
+        if (spawner != null && isSelected)
+        {
+            setSelected(false);
+        }
+    }
+
+    private void OnOtherSpawnerDeselected(ItemsSpawner spawner)
+    {
+        if (spawner == this)
+        {
+            setSelected(false);
+        }
+    }
+
 
     private void OnMouseDown()
     {
         SpawnManager.Instance.SetActiveSpawner(this);
     }
 
+
     public void SpawnRequest(int index)
     {
-        //ÔÓ‚ÂÍ‡ Ì‡ ÔÓ‰ÔËÒÍÛ Ì‡ ÒÓ·˚ÚËÂ??
         ObjectSpawn(index);
     }
 
@@ -42,29 +72,74 @@ public class ItemsSpawner : MonoBehaviour
             index >= 0 && index < target.prefabs.Count &&
             target.prefabs[index] != null)
         {
-            item = Instantiate(target.prefabs[index], Coords(), CoordsRotation());
-            //ÚÛÚ ÓÚÔËÒÍ‡ ÓÚ ÔÂ‰˚‰ÛÂ˘„Ó??
-        }
+            newItem = Instantiate(target.prefabs[index], Coords(), CoordsRotation());
+            spawnedItems.Add(newItem);
+            spawnpoint = Instantiate(spawnpoint, newItem.transform.position + Size() , CoordsRotation());
+            if (cam != null)
+            {
+                MoveCameraAfterSpawn(newItem);
 
-        if (cam != null && isSelected)
+            }
+
+            Debug.Log($"Spawned item at {name}. Total items: {spawnedItems.Count}");
+
+        }
+        else if (index == -1)
         {
-            MoveCameraAfterSpawn(item);
+            Destroy(newItem);
+            ClearLastSpawnedItem();
+        }
+        else
+        {
+            Debug.LogError("Cannot spawn item. Check prefabs list and index!");
+        }
+    }
+
+    
+
+    public void ClearLastSpawnedItem()
+    {
+        if (spawnedItems.Count > 0)
+        {
+            int lastind = spawnedItems.Count - 1;
+
+            if (spawnedItems[lastind] != null)
+            {
+                Destroy(spawnedItems[lastind]);
+            }
+            spawnedItems.RemoveAt(lastind);
         }
     }
 
     private void MoveCameraAfterSpawn(GameObject SpawnedItem)
     {
 
-        cam.transform.position = new Vector3(
-            spawnpoint.transform.position.x,
-            cam.transform.position.y,
-            cam.transform.position.z
-        );
+        if (spawnpoint != null && cam != null)
+        {
+            cam.transform.position = new Vector3(
+                spawnpoint.transform.position.x,
+                cam.transform.position.y,
+                cam.transform.position.z
+            );
+        }
     }
 
+    public List<GameObject> GetSpawnedItems()
+    {
+        return new List<GameObject>(spawnedItems);
+    }
+
+    public Vector3 Size()
+    {
+        // »Ÿ»“≈ ◊“Œ —ﬁƒ¿ œ»ÿ≈“—Ãﬂ
+        mesh = GetComponent<MeshRenderer>();
+        
+        Debug.Log(mesh.name + mesh.bounds.size);
+        return mesh.bounds.size;
+    }
     public Vector3 Coords()
     {
-        return spawnpoint.transform.position;
+        return spawnpoint != null ? spawnpoint.transform.position : transform.position;
     }
 
     public Quaternion CoordsRotation()

@@ -1,24 +1,40 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIScrollerIndex : MonoBehaviour
 {
-    [SerializeField] private ItemsSpawner spawner;
+    [SerializeField] private int index;
+
+    private Toggle toggle;
     private void Start()
     {
-        if (spawner == null)
-        {
-            spawner = FindFirstObjectByType<ItemsSpawner>();
-        }
+        toggle = GetComponent<Toggle>();
 
+        if (toggle != null )
+        {
+            toggle.onValueChanged.AddListener(OnToggleValueChanged);
+        }
+    }
+
+    private void OnToggleValueChanged(bool isOn)
+    {
+        if (isOn)
+        {
+            SendIndex();
+        }
+    }
+
+    public void SendIndex()
+    {
+        SpawnManager.Instance.SpawnAtActiveSpawner(index);
     }
 
     public void Send(int ind)
     { 
         SpawnManager.Instance.SpawnAtActiveSpawner(ind);
 
-        //на остальные toggle тоже навесить скрипт чтобы отправляли индекс
     }
 
 
