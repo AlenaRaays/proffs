@@ -131,11 +131,23 @@ public class ItemsSpawner : MonoBehaviour
 
     public Vector3 Size()
     {
-        // хыхре врн ячдю охьерялъ
-        mesh = GetComponent<MeshRenderer>();
+        if(newItem.transform.childCount <= 0)
+        {
+            mesh = newItem.GetComponent<MeshRenderer>();
+        }
+        else
+        {
+            mesh = newItem.GetComponentInChildren<MeshRenderer>();
+        }
+
         
         Debug.Log(mesh.name + mesh.bounds.size);
-        return mesh.bounds.size;
+
+        float xvector = mesh.bounds.size.x;
+
+        Vector3 vector = new Vector3(xvector, 0, 0);
+     
+        return vector;
     }
     public Vector3 Coords()
     {
